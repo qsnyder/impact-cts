@@ -9,7 +9,7 @@ terraform {
 provider "aci" {
   username = "admin"
   password = "C1sco12345"
-  url      = "https://localhost:8081"
+  url      = "https://localhost:8082"
   insecure = true
 }
 

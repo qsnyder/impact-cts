@@ -15,7 +15,7 @@ driver "terraform" {
 terraform_provider "aci" {
   alias = "aci1"
   username = "admin"
-  url  = "https://localhost:8081"
+  url  = "https://localhost:8082"
   password = "C1sco12345"
 }
 

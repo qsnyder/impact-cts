@@ -43,4 +43,4 @@
       shell: "echo {{pod_pass}} > vpnpw.txt"
 
     - name: "Connecting VPN"
-      shell: "sudo openconnect devnetsandbox-usw1-reservation.cisco.com:{{pod_port}} -S --script "ocproxy -g -L 8081:10.10.20.14:443" --no-dtls -u {{pod_user}} --timestamp < vpnpw.txt"
+      shell: "sudo openconnect devnetsandbox-usw1-reservation.cisco.com:{{pod_port}} -S --script "ocproxy -g -L 8082:10.10.20.14:443" --no-dtls -u {{pod_user}} --timestamp < vpnpw.txt"
