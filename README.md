@@ -1,6 +1,6 @@
 # Sample Code for Consul-Terraform-Sync Learning Lab
 
-This repository contains files for the CTS LL hosted within the ACI automation learning track on [developer.cisco.com](https://developer.cisco.com).  This sample code is meant to showcase the ease of setup for using CTS to automatically add/remove application hosts from an Endpoint Security Group (ESG) within an ACI tenant.
+This repository contains files for the CTS LL hosted within the ACI automation learning track on [developer.cisco.com](https://developer.cisco.com), designed for the Cisco DevNet LL2.0 web-based learning environment.  This sample code is meant to showcase the ease of setup for using CTS to automatically add/remove application hosts from an Endpoint Security Group (ESG) within an ACI tenant.
 
 ## Requirements
 
@@ -8,11 +8,9 @@ This repository contains files for the CTS LL hosted within the ACI automation l
   - ESGs were introduced in ACI v5.0.  Previous versions do not have support for this construct
   - The [reservable ACI v5.2 sandbox](https://devnetsandbox.cisco.com/RM/Diagram/Index/4eaa9878-3e74-4105-b26a-bd83eeaa6cd9?diagramType=Topology) through DevNet Sandbox is also supported
 - System capable of supporting the CTS binary.  As of the initial publication of this lab, Linux (`386`, `amd64`, `arm`, and `arm64`), macOS (`amd64` only, no M1/ARM), Solaris, and Windows (`386` and `amd64`) are supported
-  - The automatic installation script (`setup.sh`) provided assumes either `linux-amd64` or `macOS-amd64` are in use.  If running on a system differing from one of thse architectures, please ensure to download the correct binary [here](https://releases.hashicorp.com/consul-terraform-sync/0.4.3/)
-  - The jumphost included with the DevNet reservable sandbox is supported
+  - The jumphost included with the DevNet reservable sandbox is supported if you chose to invoke this repository setup script outside of the LL2.0 environment
 - The CTS input file assumes a specific set of configuration applied to the ACI fabric.  This can be applied manually or using the included Terraform file to apply the configuration.
-  - The installation script (`setup.sh`) assumes `linux-amd64` or `macOS-amd64` are in use and will download the appropriate binary for one of those two systems.  If using a system outside of the two mentioned and you desire to use the Terraform configuration, please ensure that you download the correct binary [here](https://terraform.io/downloads)
-  - The jumphost included with the DevNet reservable sandbox is supported
+  - The jumphost included with the DevNet reservable sandbox is supported if you chose to invoke this repository setup script outside of the LL2.0 environment
 
 ## Repository Contents
 
@@ -24,10 +22,12 @@ If desired, this folder is used to instantiate the proper scaffolding onto the A
 provider "aci" {
   username = "admin"
   password = "C1sco12345"
-  url      = "https://10.10.20.14"
+  url      = "https://localhost:8082"
   insecure = true
 }
 ```
+
+The use of `localhost:8082` may seem weird, as the target is a fabric that lives in some remote sandbox.  However, due to the use of forward proxies with the VPN connection for LL2.0, all traffic destined for the ACI simulator needs to be passed through the port exposed as part of `ocproxy` options within the `openconnect` process.
 
 If you wish to perform this on a different fabric, please modify the file prior to using.
 
@@ -41,7 +41,7 @@ The majority of the lab will be performed using the contents of this folder, whi
 - `input.tf`
   - Defines the variables used within the Terraform actions performed using the CTS binary.  These can be changed as desired for your implementation, but are defaulted to the values used within the `pre-req` folder for tenant, VRF, and application profile names.  If changes are desired, ensure that the information under `pre-req/main.tf` aligns with what is in this file
 - `config.hcl`
-  - This will look very familiar to the HCL written to support a standard Terraform configuration, with a few tweaks.  This file instructs the CTS binary where the Consul server instance resides, which Terraform provider to utilize for the actions (as well as any credential information), and the required inputs that will define the actions taken based on Consul changes.  In this case, it will pull the source files from a pre-built NIA use-case that aligns to this lab and use the `input.tf` file as a variable input source as required
+  - This will look very familiar to the HCL written to support a standard Terraform configuration, with a few tweaks.  This file instructs the CTS binary where the Consul server instance resides, which Terraform provider to utilize for the actions (as well as any credential information), and the required inputs that will define the actions taken based on Consul changes.  In this case, it will pull the source files from a pre-built NIA use-case that aligns to this lab and use the `input.tf` file as a variable input source as required.  In this repository, the ACI target fabric is given as `localhost:8082`, which references the forwarded port through the `ocproxy` enabled tunnel within the VPN.
 - `cts-start.sh`
   - This is a simple script to start the CTS binary with the appropriate inputs
 - `consul-srv-start.sh`
@@ -62,7 +62,7 @@ A setup script has been added to this repository to speed the time to deployment
 7. `./consul-srv-start.sh`
 8. `./cts-start.sh`
 
-When complete, you'll be able to access the Consul server web UI at [http://10.10.20.50:8500](http://10.10.20.50:8500) (if using the DevNet sandbox, change as appropriate for your system).  Accessing the webUI will show the current Consul services, which is currently just the base system as no applications have been registered.
+When complete, you'll be able to access the Consul server web UI by clicking on the briefcase at the top of the learning lab and clicking on the first entry link.  This should launch the Consul UI in a new window, using a URL that is unique for your specific instance of the lab.  Accessing the webUI will show the current Consul services, which is currently just the base system as no applications have been registered.
 Since the CTS binary is started with logs displayed to stdout, open a new terminal window and perform the following
 
 9. `cd cts-esg-sample-code/cts/`
@@ -73,7 +73,7 @@ Returning to the Consul UI -- you'll see a new service instance called "App" app
 11. `./app-exec.sh app01`
 12. `service nginx start`
 
-Viewing the Consul UI should now indicate a green check mark next to the "App" service deployment.  Additionally, streamed log output from the CTS binary should appear in the console window running that application.  The final check is to navigate to the ACI web UI at [https://10.10.20.14](https://10.10.20.14), logging in using the credentials `admin/C1sco12345`, and clicking on **Tenants > Consul > Application Profiles > esg_ap** and verifying that a new "IP subnet selector" has been created.
+Viewing the Consul UI should now indicate a green check mark next to the "App" service deployment.  Additionally, streamed log output from the CTS binary should appear in the console window running that application.  The final check is to navigate to the ACI web UI by clicking on the briefcase at the top of the lab window and choosing the second link, which will launch a new window that will bring you to the ACI login page.  Logging in with the credentials `admin/C1sco12345`, and clicking on **Tenants > Consul > Application Profiles > esg_ap** and will allow you to verify that a new "IP subnet selector" has been created.
 
 To break out of the running container -- you can use the `<CTRL-P><CTRL-Q>` key combination.  Once there, you can start the second container using `./app02-start.sh` and following the same process to instantiate the `nginx` service on this container.
 
