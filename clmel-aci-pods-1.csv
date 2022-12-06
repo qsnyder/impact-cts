@@ -1,0 +1,16 @@
+﻿Lab,VPN Network Address,endpoint port,vpn login,vpn password
+ACI 1,devnetsandbox-usw1-reservation.cisco.com:20334,20334,cluser1,GVQIPQNT
+ACI 2,devnetsandbox-usw1-reservation.cisco.com:20333,20333,cluser2,TZETIAWI
+ACI 3,devnetsandbox-usw1-reservation.cisco.com:20203,20203,cluser3,VQXXYHED
+ACI 4,devnetsandbox-usw1-reservation.cisco.com:20338,20338,cluser4,TIHBTQLP
+ACI 5,devnetsandbox-usw1-reservation.cisco.com:20352,20352,cluser5,SJHSNELR
+ACI 6,devnetsandbox-usw1-reservation.cisco.com:20356,20356,cluser6,PADFWRZY
+ACI 7,devnetsandbox-usw1-reservation.cisco.com:20357,20357,cluser7,LOLEERCS
+ACI 8,devnetsandbox-usw1-reservation.cisco.com:20359,20359,cluser8,SJYILSXF
+ACI 9,devnetsandbox-usw1-reservation.cisco.com:20360,20360,cluser9,REMJKARH
+ACI 10,devnetsandbox-usw1-reservation.cisco.com:20361,20361,cluser10,NFAALSJK
+ACI 11,devnetsandbox-usw1-reservation.cisco.com:20257,20257,cluser11,TJTABVAW
+ACI 12,devnetsandbox-usw1-reservation.cisco.com:20263,20263,cluser12,CYDZJKDL
+ACI 13,devnetsandbox-usw1-reservation.cisco.com:20111,20111,cluser13,RCADIVYY
+ACI 14,devnetsandbox-usw1-reservation.cisco.com:20322,20322,cluser14,JWQCRYCT
+ACI 15,devnetsandbox-usw1-reservation.cisco.com:20218,20218,cluser15,IQJWFAKX
