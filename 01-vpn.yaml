@@ -16,7 +16,7 @@
       when: pod_num == ""
 
     - name: Read in file
-      shell: cat clmel-aci-pods-2.csv
+      shell: cat cleur-aci-pods.csv
       register: pods
 
     - name: Set creds
